@@ -26,7 +26,6 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('YM59T0COmHD+XNDZlJXMwQtaTrC+8fgFbP/348EJjqx7rPS60LiWTAkeSiQBiIym96VIQ4L41T1BRnFnHTi6zoKAAd2U0MY/pxjvI+MEldzSrV51539WH35IzrtSEZz92uSXnSrss1AvhWQA/r9yRwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('85ab0b57a8a27c8bbb7c34b56a64ea02')
 
-# เชื่อมต่อ Line Bot ด้วยเส้นทาง /callback
 @app.route("/webhook", methods=['POST'])
 def webhook():
     signature = request.headers['X-Line-Signature']
@@ -38,7 +37,6 @@ def webhook():
         abort(400)
     return 'OK'
 
-# เมื่อมีการส่งข้อความมาจากผู้ใช้
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text.lower()
@@ -73,7 +71,6 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='Do you like Python?', quick_reply=quick_reply)
         )
-        # เพิ่มฟังก์ชัน handle_message เพื่อตรวจสอบการกด Yes หรือ No และแสดงภาพตามที่ผู้ใช้เลือก
     elif text == 'yes':
         line_bot_api.reply_message(
             event.reply_token,
